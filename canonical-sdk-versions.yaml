@@ -1,0 +1,86 @@
+# Canonical SDK version manifest (single source of truth for Piece E Go family).
+#
+# Actual read paths (verified 2026-05-26 grep; previous claim that
+# scripts/governance/assert-renovate-floor.sh reads this file is FALSE — that
+# script fetches an external renovate-config repo and hardcodes its floor at
+# (1,0,0). Tracked as FUP-CT-RENOVATE-FLOOR-CONSUME-CANONICAL-VERSIONS-001).
+#
+# Current consumers of THIS file:
+#   - scripts/vendor-build-piece-e.sh (vendor wheel build for Piece E Go family)
+#   - scripts/check-vendor-package-integrity.py (auto/cosign vendor verification)
+#   - scripts/vendor-install-verify.sh (selected-artifact install gate; delegates to the verifier above)
+#   - docs/STATUS.md narratives (manually cross-referenced; no script read)
+#
+# WS-1.8 contract manifest (full signed-state-machine) is a separate workstream.
+
+schema_version: 1
+minimum_secure_version_floor: "1.0.0"  # per AC-SIGN-005 + Auth-R3-03 atomic-rollback
+
+packages:
+  ct-auth-ts:
+    # Bumped 2026-05-26 to match packages/ct-auth-ts/package.json version "1.1.0"
+    # (Shopify primitive landed via PR #418 / ASC-2026-05-24-008). The manifest
+    # entry had drifted — canonical-versions said 1.0.0 while the actual
+    # package declared 1.1.0. minimum_secure_version stays at 1.0.0 — adopters
+    # already running ≥1.0.0 remain within the support window. NOTE: the only
+    # ct-auth-ts vendor artefact published in vendor/ts/ is
+    # control-tower-auth-1.1.0.tgz (verified 2026-05-26); new installs MUST
+    # consume 1.1.0. minimum_secure_version_floor stays at 1.0.0 per
+    # AC-SIGN-005 atomic-rollback target.
+    canonical_version: "1.1.0"
+    minimum_secure_version: "1.0.0"
+    minimum_secure_version_floor: "1.0.0"
+    repo_subdir: "packages/ct-auth-ts"
+  ct-auth-python:
+    # Added 2026-05-26 — closes 8th-SDK gap. PR #392 (`c4190ad` 2026-05-24)
+    # merged ct-auth-python 1.0.0 but the canonical-versions manifest was
+    # never updated in the same change, so STATUS narrative said "8 SDKs at
+    # 1.0.x" but this file only enumerated 7. Now consistent.
+    canonical_version: "1.0.0"
+    minimum_secure_version: "1.0.0"
+    minimum_secure_version_floor: "1.0.0"
+    repo_subdir: "packages/ct-auth-python"
+  ct-auth-go:
+    canonical_version: "1.0.1"          # post-Wave-0 patch
+    minimum_secure_version: "1.0.0"
+    repo_subdir: "packages/ct-auth-go"
+  ct-rbac-go:
+    canonical_version: "1.0.0"
+    minimum_secure_version: "1.0.0"
+    repo_subdir: "packages/ct-rbac-go"
+  ct-tenant-go:
+    canonical_version: "1.0.0"
+    minimum_secure_version: "1.0.0"
+    repo_subdir: "packages/ct-tenant-go"
+  ct-http-go:
+    canonical_version: "1.0.0"
+    minimum_secure_version: "1.0.0"
+    repo_subdir: "packages/ct-http-go"
+  ct-webhooks-go:
+    canonical_version: "1.0.0"
+    minimum_secure_version: "1.0.0"
+    repo_subdir: "packages/ct-webhooks-go"
+  ct-sdk-common:
+    # Key is hyphenated to match repo_subdir + sibling-entry naming convention
+    # (CORR-R1-002 fix-round). Python module name is ct_sdk_common (underscore);
+    # the import-name vs package-name divergence is intentional and documented
+    # at packages/ct-sdk-common/MIGRATION.md.
+    # Bumped 1.0.0 -> 1.0.1 2026-05-30: 1.0.0 declared a nonexistent `ct-auth-python`
+    # dependency (actual auth dist is `ct-auth`), so it could not pip-install in any
+    # consumer. 1.0.1 corrects the dep name (metadata-only). New installs MUST use 1.0.1.
+    canonical_version: "1.0.1"
+    minimum_secure_version: "1.0.1"  # 1.0.0 is uninstallable (bad dep name); floor advanced so the manifest cannot bless it
+    minimum_secure_version_floor: "1.0.1"  # CORR-R1-003 parity with ct-auth-ts entry; advanced past uninstallable 1.0.0
+    repo_subdir: "packages/ct-sdk-common"
+
+auth_contract:
+  manifest_version: "2.0.0"
+  # manifest_sha256 is refreshed daily by .github/workflows/contract-manifest-publish.yml
+  # (cron 06:00 UTC). The scheduled refresh produces a new `as_of:` timestamp in the
+  # contract YAML and therefore a new SHA; the workflow opens an auto-merge PR for the
+  # contract sidecars (`chore(contracts): scheduled manifest refresh`) and a chained
+  # renovate-bump PR (`chore(contracts): bump auth_contract.manifest_sha256 ...`)
+  # restores this value to match. Apparent staleness within a 24h window is expected.
+  # Tracked: FUP-CT-POLICY-DOC-IN-SYNC-CI-GATE-001 (CI gate to assert sync).
+  manifest_sha256: "78bbf9f6d6ecbcfbad988f6ebede84838be6aa94a7e6e206e390fe39d6afcf37"
+  manifest_url: "https://raw.githubusercontent.com/jrnb2024/control-tower/main/contracts/auth-contract-v1.yaml"

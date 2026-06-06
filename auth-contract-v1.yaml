@@ -1,0 +1,82 @@
+schema_version: 1
+as_of: '2026-06-06T23:04:59Z'
+claim_shape_version: 2.0.0
+issuers:
+- iss: https://ct.brokapps.ai
+  jwks_url: https://ct.brokapps.ai/.well-known/jwks.json
+  alg: RS256
+  audience: control-tower
+  key_rotation_policy_ref: jwks
+- iss: https://staging-ct.brokapps.ai
+  jwks_url: https://staging-ct.brokapps.ai/.well-known/jwks.json
+  alg: RS256
+  audience:
+  - control-tower-staging
+  - control-tower
+  key_rotation_policy_ref: jwks
+- iss: control-tower
+  jwks_url: https://ct.brokapps.ai/.well-known/jwks.json
+  alg: RS256
+  audience: control-tower
+  key_rotation_policy_ref: jwks
+  migration_phase: 1
+  migration_target_iss: https://ct.brokapps.ai
+- iss: staging-control-tower
+  jwks_url: https://staging-ct.brokapps.ai/.well-known/jwks.json
+  alg: RS256
+  audience:
+  - control-tower-staging
+  - control-tower
+  key_rotation_policy_ref: jwks
+  migration_phase: 1
+  migration_target_iss: https://staging-ct.brokapps.ai
+key_rotation_policy:
+  hmac:
+    rotation_interval_days: 90
+    grace_period_hours: 24
+  jwks:
+    rotation_interval_days: 30
+    grace_period_hours: 48
+protected_primitives:
+  tier_deny:
+    python:
+    - validate_token
+    - decode_token_unverified
+    - verify
+    - Validator
+    - JWKSClient
+    - StatefulJWKSClient
+    typescript:
+    - validateToken
+    - decodeTokenUnsafe
+    - verify
+    - JWKSClient
+    - verifyShopifySessionToken
+    - loadIssuerConfig
+    - controlTowerAuth
+    go:
+    - WithCTJWT
+    - WithServiceJWT
+    - WithAPIKey
+    - BuildMiddleware
+    - NewHTTPJWKSCache
+  tier_warn:
+    python:
+    - has_permission
+    - has_app_permission
+    - has_role
+    - is_platform_admin
+    - get_permissions
+    - get_org_roles
+    - clear_permissions_cache
+    typescript:
+    - hasPermission
+    - hasAppPermission
+    - hasRole
+    - isPlatformAdmin
+    - getPermissions
+    - getOrgRoles
+    - clearPermissionsCache
+    go:
+    - VerifiedClaims
+    - ClaimsFromContext
