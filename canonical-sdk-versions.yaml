@@ -36,7 +36,13 @@ packages:
     # merged ct-auth-python 1.0.0 but the canonical-versions manifest was
     # never updated in the same change, so STATUS narrative said "8 SDKs at
     # 1.0.x" but this file only enumerated 7. Now consistent.
-    canonical_version: "1.0.0"
+    # 1.1.0 (2026-06-10): WP-CT-AUTH-JWKS-KID-SELFHEAL-001 (#513) — JWKS
+    # kid-cooldown self-heal (global miss-path token-bucket replaces the
+    # re-arming per-kid latch) + validate_token_safe un-swallow. Wheel
+    # vendored #514, cosign-signed (run 27305825535). MINOR + availability
+    # fix (fail-closed bug, not an exploitable hole) → minimum_secure_version
+    # RETAINED at 1.0.0 per the #513 blast-radius decision.
+    canonical_version: "1.1.0"
     minimum_secure_version: "1.0.0"
     minimum_secure_version_floor: "1.0.0"
     repo_subdir: "packages/ct-auth-python"
