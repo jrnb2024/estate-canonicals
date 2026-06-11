@@ -42,7 +42,12 @@ packages:
     # vendored #514, cosign-signed (run 27305825535). MINOR + availability
     # fix (fail-closed bug, not an exploitable hole) → minimum_secure_version
     # RETAINED at 1.0.0 per the #513 blast-radius decision.
-    canonical_version: "1.1.0"
+    # 1.2.0 (2026-06-11): WP-MCP-FABRIC-01 (#523) — shared MCP primitive
+    # (ct_auth.mcp JSON-RPC dispatcher + ct_auth.capability verify +
+    # ct_auth.mcp_jwt Tier-R path). Wheel vendored #525, cosign-signed (run
+    # 27348613126). MINOR, additive modules only -> minimum_secure_version
+    # RETAINED at 1.0.0.
+    canonical_version: "1.2.0"
     minimum_secure_version: "1.0.0"
     minimum_secure_version_floor: "1.0.0"
     repo_subdir: "packages/ct-auth-python"
