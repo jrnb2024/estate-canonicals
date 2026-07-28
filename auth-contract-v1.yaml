@@ -1,6 +1,6 @@
 schema_version: 1
-as_of: '2026-07-28T06:47:06Z'
-claim_shape_version: 2.0.0
+as_of: '2026-07-28T11:53:28Z'
+claim_shape_version: 2.1.0
 issuers:
 - iss: https://ct.brokapps.ai
   jwks_url: https://ct.brokapps.ai/.well-known/jwks.json
