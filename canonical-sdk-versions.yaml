@@ -85,13 +85,6 @@ packages:
     repo_subdir: "packages/ct-sdk-common"
 
 auth_contract:
-  manifest_version: "2.0.0"
-  # manifest_sha256 is refreshed daily by .github/workflows/contract-manifest-publish.yml
-  # (cron 06:00 UTC). The scheduled refresh produces a new `as_of:` timestamp in the
-  # contract YAML and therefore a new SHA; the workflow opens an auto-merge PR for the
-  # contract sidecars (`chore(contracts): scheduled manifest refresh`) and a chained
-  # renovate-bump PR (`chore(contracts): bump auth_contract.manifest_sha256 ...`)
-  # restores this value to match. Apparent staleness within a 24h window is expected.
-  # Tracked: FUP-CT-POLICY-DOC-IN-SYNC-CI-GATE-001 (CI gate to assert sync).
-  manifest_sha256: "78bbf9f6d6ecbcfbad988f6ebede84838be6aa94a7e6e206e390fe39d6afcf37"
+  manifest_version: "2.1.0"
+  manifest_sha256: "7fd5330fdda939510a3b85342902ba756f9b4e10c9f75bbaa0e34a0f8cc522cf"
   manifest_url: "https://raw.githubusercontent.com/jrnb2024/control-tower/main/contracts/auth-contract-v1.yaml"
