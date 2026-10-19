@@ -1,5 +1,5 @@
 schema_version: 1
-as_of: '2026-10-18T06:01:42Z'
+as_of: '2026-10-19T06:02:30Z'
 claim_shape_version: 2.1.0
 issuers:
 - iss: https://ct.brokapps.ai
