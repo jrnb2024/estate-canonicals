@@ -86,5 +86,5 @@ packages:
 
 auth_contract:
   manifest_version: "2.1.0"
-  manifest_sha256: "bce229d2391f41695d366747a77025cebb99c97b372528b50d992345fa16c8be"
+  manifest_sha256: "2931349a27ece699c727cadb8301a70033b1536005e5e03784f2fd2e6eb85378"
   manifest_url: "https://raw.githubusercontent.com/jrnb2024/control-tower/main/contracts/auth-contract-v1.yaml"
